@@ -41,7 +41,7 @@ export default{
     }
     
     catch(error){
-      console.error('Erro ao buscar nível:', err);
+      console.error('Erro ao buscar nível:', error);
       await interaction.reply({
         content: '❌ Erro ao buscar o nível!',
         ephemeral: true
