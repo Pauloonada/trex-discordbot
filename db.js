@@ -14,4 +14,4 @@ db.connect()
   .then(() => console.log("✅ Conectado ao PostgreSQL"))
   .catch(err => console.error("Erro ao conectar:", err));
 
-module.exports = db;
+export default db;
