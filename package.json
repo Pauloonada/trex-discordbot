@@ -1,17 +1,17 @@
 {
-  "name": "discord-getting-started",
+  "name": "trex-discordbot",
   "private": true,
   "version": "1.0.0",
-  "description": "Discord example app",
-  "main": "app.js",
+  "description": "Discord admin bot",
+  "main": "index.js",
   "type": "module",
   "engines": {
     "node": ">=18.x"
   },
   "scripts": {
-    "start": "node app.js",
-    "register": "node commands.js",
-    "dev": "nodemon app.js"
+    "start": "node index.js",
+    "register": "node deployCommands.js",
+    "dev": "nodemon index.js"
   },
   "author": "Shay DeWael",
   "license": "MIT",
