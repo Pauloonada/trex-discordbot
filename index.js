@@ -13,6 +13,8 @@ const PORT = process.env.PORT || 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+console.log("📦 Variáveis de ambiente visíveis:", process.env);
+
 app.get('/', (req, res) => {
   res.send('Bot Trex está online 🚀');
 });
@@ -140,6 +142,12 @@ client.on('interactionCreate', async interaction => {
     }
   }
 });
+
+console.log("🔎 DISCORD_TOKEN (parcial):", process.env.DISCORD_TOKEN?.slice(0, 10));
+if(!process.env.DISCORD_TOKEN){
+  console.error("❌ ERRO: Variável DISCORD_TOKEN não está definida!");
+  process.exit(1);
+}
 
 // Login
 try{
