@@ -7,6 +7,10 @@ import { fileURLToPath, pathToFileURL } from 'url';
 
 config();
 
+client.on('debug', console.log);
+client.on('warn', console.warn);
+client.on('error', console.error);
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
