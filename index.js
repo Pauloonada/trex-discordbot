@@ -104,4 +104,6 @@ for(const file of eventFiles){
 }
 
 // Login
-client.login(process.env.DISCORD_TOKEN);
+console.log("Tentando logar com o bot...");
+await client.login(process.env.DISCORD_TOKEN);
+console.log("Login executado com sucesso!");
