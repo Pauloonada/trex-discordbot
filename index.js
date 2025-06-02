@@ -2,12 +2,24 @@ import { config } from 'dotenv';
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
 import path from 'path';
 import * as fs from 'fs';
+import express from 'express';
 import { fileURLToPath, pathToFileURL } from 'url';
 
 config();
 
+const app = express();
+const PORT = process.env.MONITOR_PORT || 8080;
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+app.get('/', (req, res) => {
+  res.send('Bot Trex está online 🚀');
+});
+
+app.listen(PORT, () => {
+  console.log(`🌐 Webserver de monitoramento ativo na porta ${PORT}`);
+});
 
 const client = new Client({
   intents: [
