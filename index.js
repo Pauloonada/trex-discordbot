@@ -1,3 +1,5 @@
+console.log("Iniciando index.js...");
+
 import { config } from 'dotenv';
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
 import path from 'path';
