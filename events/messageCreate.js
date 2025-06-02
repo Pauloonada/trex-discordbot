@@ -1,4 +1,4 @@
-import levelSystem from '../levelSystem.js';
+import levelSystem from '../utils/levelSystem.js';
 
 export default {
   name: 'messageCreate',

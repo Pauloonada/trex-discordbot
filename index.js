@@ -80,7 +80,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 // Load Level
-const eventsPath = path.join(__dirname, 'utils');
+const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 for(const file of eventFiles){
@@ -99,6 +99,7 @@ for(const file of eventFiles){
   
   else{
     console.warn(`[WARN] Evento mal formatado: ${file}`);
+    continue;
   }
 }
 

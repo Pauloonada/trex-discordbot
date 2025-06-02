@@ -25,7 +25,6 @@ export default{
       if(res.rows.length === 0){
         return interaction.reply({
           content: `❌ Não encontrei dados para ${user.username}.`,
-          ephemeral: true
         });
       }
 
@@ -37,7 +36,6 @@ export default{
 • 🧪 XP: ${xp}
 • 🆙 Nível: ${level}
 • 🕒 Tempo em call: ${tempoFormatado}`,
-        ephemeral: false
       });
 
     }
