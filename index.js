@@ -58,7 +58,7 @@ for (const folder of commandFolders) {
 
 // Ready
 client.once('ready', () => {
-  console.log(`Bot online como ${client.user.tag}`);
+  console.log(`Bot online como ${client.user.username}`);
 });
 
 // Once SlashCommand is used
@@ -78,6 +78,29 @@ client.on('interactionCreate', async interaction => {
     await interaction.reply({ content: 'Erro ao executar o comando!', flags: 'Ephemeral' });
   }
 });
+
+// Load Level
+const eventsPath = path.join(__dirname, 'utils');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+
+for(const file of eventFiles){
+  const filePath = path.join(eventsPath, file);
+  const event = await import(pathToFileURL(filePath));
+
+  if(event.default && event.default.name && event.default.execute){
+    if(event.default.once){
+      client.once(event.default.name, (...args) => event.default.execute(...args, client));
+    }
+    
+    else{
+      client.on(event.default.name, (...args) => event.default.execute(...args, client));
+    }
+  }
+  
+  else{
+    console.warn(`[WARN] Evento mal formatado: ${file}`);
+  }
+}
 
 // Login
 client.login(process.env.DISCORD_TOKEN);

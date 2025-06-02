@@ -1,8 +1,12 @@
-import { SlashCommandBuilder } from "discord.js";
+import levelSystem from '../levelSystem.js';
 
-export default{
-    data: new SlashCommandBuilder().setName("Mensagem").setDescription("A ser implementado"),
-    async execute(interaction){
-        await interaction.reply("Ainda a ser implementado...");
-    },
+export default {
+  name: 'messageCreate',
+  async execute(message, client) {
+    try {
+      await levelSystem.execute(message);
+    } catch (error) {
+      console.error('Erro ao processar mensagem:', error);
+    }
+  }
 };
