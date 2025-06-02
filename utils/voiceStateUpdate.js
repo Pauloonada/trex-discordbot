@@ -1,5 +1,5 @@
-import db from '../db';
-import voiceTimes from '../utils/voiceTracker';
+import db from '../db.js';
+import voiceTimes from '../utils/voiceTracker.js';
 
 export default{
   name: 'voiceStateUpdate',
