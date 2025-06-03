@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
-import db from '../../db.js'; // Ajusta o caminho se estiver diferente
+import { gerarImagemNivel } from '../../utils/levelCard.js';
+import db from '../../db.js';
 
 export default{
   data: new SlashCommandBuilder()
@@ -31,11 +32,10 @@ export default{
       const { xp, level, voice_seconds } = res.rows[0];
       const tempoFormatado = formatSeconds(voice_seconds || 0);
 
+      const imagem = gerarImagemNivel(user, level, xp, tempoFormatado);
+
       await interaction.reply({
-        content: `📊 **Nível de ${user.username}**
-• 🧪 XP: ${xp}
-• 🆙 Nível: ${level}
-• 🕒 Tempo em call: ${tempoFormatado}`,
+        files: [imagem],
       });
 
     }
