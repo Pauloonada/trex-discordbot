@@ -42,3 +42,6 @@ try{
 } catch(error){
     console.error("❌ Erro ao registrar comandos:", error);
 }
+
+console.log("✅ deployCommands.js finalizado com sucesso!");
+process.exit(0);
