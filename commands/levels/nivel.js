@@ -35,14 +35,14 @@ export default{
 
       const imagem = gerarImagemNivel(user, level, xp, tempoFormatado);
 
-      if (!attachment) {
+      if (!imagem) {
         console.error('❌ Falha ao gerar imagem de nível!');
         return interaction.reply({ content: 'Erro ao gerar imagem!', flags: InteractionResponseFlags.EPHEMERAL });
       }
 
       await interaction.reply({
         content: `📊 Nível de ${user.username}`,
-        files: [attachment]
+        files: [imagem]
       });
 
     }
