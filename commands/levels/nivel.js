@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { gerarImagemNivel } from '../../utils/levelCard.js';
 import db from '../../db.js';
+import { InteractionResponseFlags } from 'discord-interactions';
 
 export default{
   data: new SlashCommandBuilder()
@@ -44,7 +45,7 @@ export default{
       console.error('Erro ao buscar nível:', error);
       await interaction.reply({
         content: '❌ Erro ao buscar o nível!',
-        ephemeral: true
+        flags: InteractionResponseFlags.EPHEMERAL
       });
     }
   }

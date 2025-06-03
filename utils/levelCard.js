@@ -14,7 +14,7 @@ export async function gerarImagemNivel(user, level, xp, voiceTime) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Avatar do usuário
-  const avatarURL = user.displayAvatarURL({ format: 'png', size: 128 }) || 'https://i.imgur.com/AfFp7pu.png';
+  const avatarURL = user.displayAvatarURL({ extension: 'jpg', size: 128 }) || 'https://i.imgur.com/AfFp7pu.png';
   const avatar = await loadImage(avatarURL);
   ctx.save();
   ctx.beginPath();
