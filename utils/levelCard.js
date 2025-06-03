@@ -3,7 +3,7 @@ import path from 'path';
 import { AttachmentBuilder } from 'discord.js';
 
 // (Opcional) Registra uma fonte personalizada
-registerFont(path.resolve('./assets/fonts/ChelseaMarket-Regular.ttf'), { family: 'Chelsea-Marker' });
+registerFont(path.resolve('./assets/fonts/Chelsea_Market/ChelseaMarket-Regular.ttf'), { family: 'Chelsea-Marker' });
 
 export async function gerarImagemNivel(user, level, xp, voiceTime) {
   const canvas = createCanvas(800, 250);
