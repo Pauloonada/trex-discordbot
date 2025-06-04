@@ -14,7 +14,7 @@ export default{
     ),
 
   async execute(interaction){
-    const user = await interaction.guild.members.fetch(interaction.options.getUser('user')) || await interaction.guild.members.fetch(interaction.user.id);
+    const user = await interaction.guild.members.fetch({user: interaction.options.getUser('user'), force: true}) || await interaction.guild.members.fetch({user: interaction.user.id, force: true});
     const userId = user.id;
     const guildId = interaction.guild.id;
 

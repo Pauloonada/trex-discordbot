@@ -32,6 +32,7 @@ async function main() {
     intents: [
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.GuildMembers,
       GatewayIntentBits.MessageContent,
       GatewayIntentBits.GuildVoiceStates
     ]
@@ -156,7 +157,7 @@ async function main() {
   });
 
   process.on('SIGTERM', async () => {
-      await enviarLogWebhook('🟡 Bot **encerrado pelo sistema** (SIGTERM)');
+      await enviarLogWebhook('⚙️ O bot foi reiniciado por manutenção ou atualização.');
       process.exit();
   });
 

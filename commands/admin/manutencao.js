@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import botStatus from '../../utils/botStatus.js';
+import botStatus from '../../utils/botStatus.js'
 
 export default {
   data: new SlashCommandBuilder()
@@ -21,7 +21,7 @@ export default {
     }
 
     const ativar = interaction.options.getBoolean('ativar');
-    botStatus.setManutencao(ativar);
+    botStatus.setMaintenance(ativar);
 
     await interaction.reply({
       content: `🔧 Modo de manutenção ${ativar ? 'ativado' : 'desativado'}.`,
