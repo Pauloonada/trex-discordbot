@@ -33,7 +33,7 @@ export async function gerarImagemNivel(user, level, xp, voiceTime, cargos) {
         // Nome do usuário
         ctx.font = '28px Chelsea-Market';
         ctx.fillStyle = '#ffffff';
-        ctx.fillText(user.username, 250, 70);
+        ctx.fillText(user.user.username, 250, 70);
 
         // Carregar ícones
         const iconNivel = await loadImage('./assets/icons/level-up.png');
@@ -87,7 +87,7 @@ export async function gerarImagemNivel(user, level, xp, voiceTime, cargos) {
         ctx.font = `${fonteTamanho}px Chelsea-Market`;
 
         let x = canvas.width - 20;
-        let y = canvas.height - 10;
+        let y = 10;
 
         for (let i = cargosMostrar.length - 1; i >= 0; i--) {
             const texto = `#${cargosMostrar[i]}`;
@@ -100,7 +100,7 @@ export async function gerarImagemNivel(user, level, xp, voiceTime, cargos) {
             roundRect(ctx, x, y - caixaAltura, caixaLargura, caixaAltura, 8, '#223355cc');
 
             ctx.fillStyle = '#ffffff';
-            ctx.fillText(texto, x + caixaPaddingX, y - caixaPaddingY);
+            ctx.fillText(texto, x + caixaPaddingX, y + caixaPaddingY);
 
             x -= espacamento;
         }
