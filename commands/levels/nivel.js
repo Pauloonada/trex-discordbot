@@ -32,8 +32,12 @@ export default{
 
       const { xp, level, voice_seconds } = res.rows[0];
       const tempoFormatado = formatSeconds(voice_seconds || 0);
+      const cargos = member.roles.cache
+        .filter(r => r.id !== interaction.guild.id)
+        .sort((a, b) => b.position - a.position)
+        .map(r => r.name);
 
-      const imagem = await gerarImagemNivel(user, level, xp, tempoFormatado);
+      const imagem = await gerarImagemNivel(user, level, xp, tempoFormatado, cargos);
 
       if (!imagem || typeof imagem !== 'object') {
         console.error('❌ Falha ao gerar imagem de nível!');
