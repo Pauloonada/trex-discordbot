@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import botStatus from '../../utils/botStatus.js'
+import { enviarLogWebhook } from '../../utils/webhookLogger.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -24,10 +25,14 @@ export default {
     botStatus.setMaintenance(ativar);
 
     await interaction.reply({
-      content: `🔧 Modo de manutenção ${ativar ? 'ativado' : 'desativado'}.`,
+      content: `🔧 Modo de manutenção ${ativar ? 'ativado' : 'desativado'}.\n🟡 Colocando o bot em modo de manutenção. Desligando...`,
       ephemeral: true,
     });
-    
-    process.exit(1);
+
+    // Loga no webhook antes de sair
+    await enviarLogWebhook('🟡 Bot **desligado via comando** `/manutenção`.');
+
+    // Aguarda 1 segundo só pra garantir envio
+    setTimeout(() => process.exit(1), 1000);
   }
 };
