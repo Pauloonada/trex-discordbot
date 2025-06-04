@@ -1,7 +1,7 @@
 console.log("Iniciando index.js...");
 
 import { config } from 'dotenv';
-import { enviarLogWebhook } from './utils/webhookLogger';
+import { enviarLogWebhook } from './utils/webhookLogger.js';
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
 import path from 'path';
 import * as fs from 'fs';
