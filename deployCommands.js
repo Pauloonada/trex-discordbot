@@ -33,6 +33,16 @@ for(const folder of commandFolders){
     }
 }
 
+const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
+
+try{
+    console.log("⏳ Registrando comandos (slash)...")
+    await rest.put(Routes.applicationCommands(process.env.APP_ID), { body: commands });
+    console.log("✅ Comandos registrados com sucesso.");
+} catch(error){
+    console.error("❌ Erro ao registrar comandos:", error);
+}
+
 if (process.env.GUILD_ID) {
   try {
     console.log("🧹 Limpando comandos antigos da GUILD...");
@@ -44,16 +54,6 @@ if (process.env.GUILD_ID) {
   } catch (error) {
     console.error("❌ Erro ao limpar comandos da GUILD:", error);
   }
-}
-
-const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
-
-try{
-    console.log("⏳ Registrando comandos (slash)...")
-    await rest.put(Routes.applicationCommands(process.env.APP_ID), { body: commands });
-    console.log("✅ Comandos registrados com sucesso.");
-} catch(error){
-    console.error("❌ Erro ao registrar comandos:", error);
 }
 
 console.log("✅ deployCommands.js finalizado com sucesso!");

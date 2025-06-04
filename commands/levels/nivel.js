@@ -14,7 +14,7 @@ export default{
     ),
 
   async execute(interaction){
-    const user = await interaction.guild.members.fetch(interaction.options.getUser('user')) || interaction.guild.members.fetch(interaction.user.id);
+    const user = await interaction.guild.members.fetch(interaction.options.getUser('user')) || await interaction.guild.members.fetch(interaction.user.id);
     const userId = user.id;
     const guildId = interaction.guild.id;
 
@@ -25,7 +25,7 @@ export default{
       );
 
       if(res.rows.length === 0){
-        return interaction.reply({
+        return interaction.deferReply({
           content: `❌ Não encontrei dados para ${user.username}.`,
         });
       }
@@ -47,7 +47,7 @@ export default{
       console.log("🧪 Conteúdo da imagem:", imagem);
       console.log("Tipo da imagem:", typeof imagem, "É instanceof AttachmentBuilder?", imagem instanceof AttachmentBuilder);
 
-      await interaction.reply({
+      await interaction.deferReply({
         content: `📊 Nível de ${user.user.username}`,
         files: [imagem]
       });
