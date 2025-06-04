@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, AttachmentBuilder } from 'discord.js';
 import { gerarImagemNivel } from '../../utils/levelCard.js';
 import db from '../../db.js';
 import { InteractionResponseFlags } from 'discord-interactions';
@@ -33,7 +33,7 @@ export default{
       const { xp, level, voice_seconds } = res.rows[0];
       const tempoFormatado = formatSeconds(voice_seconds || 0);
 
-      const imagem = gerarImagemNivel(user, level, xp, tempoFormatado);
+      const imagem = await gerarImagemNivel(user, level, xp, tempoFormatado);
 
       if (!imagem || typeof imagem !== 'object') {
         console.error('❌ Falha ao gerar imagem de nível!');
