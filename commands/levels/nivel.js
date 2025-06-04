@@ -3,7 +3,7 @@ import { gerarImagemNivel } from '../../utils/levelCard.js';
 import db from '../../db.js';
 import { InteractionResponseFlags } from 'discord-interactions';
 
-export default{
+export default {
   data: new SlashCommandBuilder()
     .setName('nivel')
     .setDescription('Veja seu nível, XP e tempo em call')
@@ -13,52 +13,64 @@ export default{
         .setRequired(false)
     ),
 
-  async execute(interaction){
-    const user = await interaction.guild.members.fetch({user: interaction.options.getUser('user'), force: true}) || await interaction.guild.members.fetch({user: interaction.user.id, force: true});
-    const userId = user.id;
+  async execute(interaction) {
+    await interaction.deferReply();
+
+    const targetUser = interaction.options.getUser('user') || interaction.user;
+    let member;
+
+    try {
+      member = await interaction.guild.members.fetch(targetUser.id);
+    } catch (err) {
+      console.error('Erro ao buscar membro da guilda:', err);
+      return interaction.editReply({
+        content: `❌ Não foi possível encontrar ${targetUser.username}.`
+      });
+    }
+
+    const userId = member.id;
     const guildId = interaction.guild.id;
 
-    try{
+    try {
+      console.log('⛏️ Buscando no banco...');
       const res = await db.query(
         'SELECT * FROM users WHERE user_id = $1 AND guild_id = $2',
         [userId, guildId]
       );
+      console.log('✅ Dados retornados!');
 
-      if(res.rows.length === 0){
-        return interaction.deferReply({
-          content: `❌ Não encontrei dados para ${user.username}.`,
+      if (res.rows.length === 0) {
+        return interaction.editReply({
+          content: `❌ Não encontrei dados para ${targetUser.username}.`
         });
       }
 
       const { xp, level, voice_seconds } = res.rows[0];
       const tempoFormatado = formatSeconds(voice_seconds || 0);
-      const cargos = user.roles.cache
+      const cargos = member.roles.cache
         .filter(r => r.id !== interaction.guild.id)
         .sort((a, b) => b.position - a.position)
         .map(r => r.name);
 
-      const imagem = await gerarImagemNivel(user, level, xp, tempoFormatado, cargos);
-
-      if (!imagem || typeof imagem !== 'object') {
-        console.error('❌ Falha ao gerar imagem de nível!');
-        return interaction.reply({ content: 'Erro ao gerar imagem!', flags: InteractionResponseFlags.EPHEMERAL });
+      let imagem;
+      try {
+        console.log('Chamando gerarImagemNivel...');
+        imagem = await gerarImagemNivel(member, level, xp, tempoFormatado, cargos);
+        console.log('Imagem gerada!');
+      } catch (err) {
+        console.error('Erro ao gerar imagem de nível:', err);
+        return interaction.editReply({ content: '❌ Erro ao gerar a imagem de nível!' });
       }
 
-      console.log("🧪 Conteúdo da imagem:", imagem);
-      console.log("Tipo da imagem:", typeof imagem, "É instanceof AttachmentBuilder?", imagem instanceof AttachmentBuilder);
-
-      await interaction.deferReply({
-        content: `📊 Nível de ${user.user.username}`,
+      await interaction.editReply({
+        content: `📊 Nível de ${member.user.username}`,
         files: [imagem]
       });
 
-    }
-    
-    catch(error){
+    } catch (error) {
       console.error('Erro ao buscar nível:', error);
-      await interaction.reply({
-        content: '❌ Erro ao buscar o nível!',
-        flags: InteractionResponseFlags.EPHEMERAL
+      await interaction.editReply({
+        content: '❌ Erro ao buscar o nível!'
       });
     }
   }

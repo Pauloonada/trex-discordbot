@@ -157,7 +157,7 @@ async function main() {
   });
 
   process.on('SIGTERM', async () => {
-      await enviarLogWebhook('⚙️ O bot foi reiniciado por manutenção ou atualização.');
+      await enviarLogWebhook('⚙️ Bot reiniciado por manutenção ou atualização.');
       process.exit();
   });
 
