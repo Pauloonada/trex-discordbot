@@ -12,7 +12,7 @@
     "start": "node index.js",
     "register": "node deployCommands.js",
     "dev": "nodemon index.js",
-    "postinstall": "npm install --omit=dev"
+    "postinstall": "echo Postinstall completo"
   },
   "author": "Shay DeWael",
   "license": "MIT",
