@@ -15,8 +15,16 @@ export async function gerarImagemNivel(user, level, xp, voiceTime) {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Avatar do usuário
-        const avatarURL = user.displayAvatarURL({ extension: 'jpg', size: 128 }) || 'https://i.imgur.com/AfFp7pu.png';
-        const avatar = await loadImage(avatarURL);
+        let avatar;
+
+        try {
+            const avatarURL = user.displayAvatarURL({ extension: 'jpg', size: 128 });
+            avatar = await loadImage(avatarURL);
+        } catch (error) {
+            console.warn('⚠️ Falha ao carregar avatar, usando imagem padrão.');
+            avatar = await loadImage('https://i.imgur.com/AfFp7pu.png');
+        }
+
         ctx.save();
         ctx.beginPath();
         ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
