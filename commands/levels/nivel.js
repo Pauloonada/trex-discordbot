@@ -32,7 +32,7 @@ export default{
 
       const { xp, level, voice_seconds } = res.rows[0];
       const tempoFormatado = formatSeconds(voice_seconds || 0);
-      const cargos = member.roles.cache
+      const cargos = user.roles.cache
         .filter(r => r.id !== interaction.guild.id)
         .sort((a, b) => b.position - a.position)
         .map(r => r.name);
