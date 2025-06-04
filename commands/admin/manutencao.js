@@ -27,5 +27,7 @@ export default {
       content: `🔧 Modo de manutenção ${ativar ? 'ativado' : 'desativado'}.`,
       ephemeral: true,
     });
+    
+    process.exit(1);
   }
 };
