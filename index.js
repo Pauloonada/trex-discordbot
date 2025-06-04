@@ -14,18 +14,12 @@ config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 console.log("📦 Variáveis de ambiente visíveis:", process.env);
-
-app.get('/', (req, res) => {
-  res.send('Bot Trex está online 🚀');
-});
-
-app.listen(PORT, () => {
-  console.log(`🌐 Webserver de monitoramento ativo na porta ${PORT}`);
-});
 
 async function main() {
   const client = new Client({
@@ -171,6 +165,13 @@ async function main() {
     console.log("🔐 Tentando logar com o bot...");
     await client.login(process.env.DISCORD_TOKEN);
     console.log("✅ Login executado com sucesso!");
+
+    const router = (await import('./routes/index.js')).default(client);
+
+    app.use('/', router);
+    app.listen(PORT, () => {
+      console.log(`🌐 Webserver de monitoramento ativo na porta ${PORT}`);
+    });
   } catch (loginError) {
     console.error('❌ Erro no login do bot:', loginError);
   }
