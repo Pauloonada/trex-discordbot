@@ -7,7 +7,6 @@ import path from 'path';
 import * as fs from 'fs';
 import express from 'express';
 import { fileURLToPath, pathToFileURL } from 'url';
-import { enviarLogWebhook } from './utils/webhookLogger';
 
 config();
 
