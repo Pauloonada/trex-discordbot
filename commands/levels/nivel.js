@@ -48,7 +48,7 @@ export default{
       console.log("Tipo da imagem:", typeof imagem, "É instanceof AttachmentBuilder?", imagem instanceof AttachmentBuilder);
 
       await interaction.reply({
-        content: `📊 Nível de ${user.username}`,
+        content: `📊 Nível de ${user.user.username}`,
         files: [imagem]
       });
 

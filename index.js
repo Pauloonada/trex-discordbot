@@ -1,11 +1,13 @@
 console.log("Iniciando index.js...");
 
 import { config } from 'dotenv';
+import { enviarLogWebhook } from './utils/webhookLogger';
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
 import path from 'path';
 import * as fs from 'fs';
 import express from 'express';
 import { fileURLToPath, pathToFileURL } from 'url';
+import { enviarLogWebhook } from './utils/webhookLogger';
 
 config();
 
@@ -108,8 +110,9 @@ async function main() {
   }
 
   // Ready
-  client.once('ready', () => {
+  client.once('ready', async() => {
     console.log(`🤖 Bot online como ${client.user.tag}`);
+    await enviarLogWebhook(`🟢 Bot **ligado** como \`${client.user.tag}\``);
   });
 
   // Once SlashCommand is used
@@ -138,6 +141,22 @@ async function main() {
     console.error("❌ ERRO: Variável DISCORD_TOKEN não está definida!");
     process.exit(1);
   }
+
+  // Mensagens WebHook
+  process.on('SIGINT', async () => {
+    await enviarLogWebhook('🔴 Bot **desligado manualmente** (SIGINT)');
+    process.exit();
+  });
+
+  process.on('SIGTERM', async () => {
+      await enviarLogWebhook('🟡 Bot **encerrado pelo sistema** (SIGTERM)');
+      process.exit();
+  });
+
+  process.on('uncaughtException', async (err) => {
+    await enviarLogWebhook(`💥 Bot **crashou**!\nErro: \`\`\`${err.stack}\`\`\``);
+    process.exit(1);
+  });
 
   // Login
   try {
