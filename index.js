@@ -2,6 +2,7 @@ console.log("Iniciando index.js...");
 
 import { config } from 'dotenv';
 import { enviarLogWebhook } from './utils/webhookLogger.js';
+import botStatus from './utils/botStatus.js';
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
 import path from 'path';
 import * as fs from 'fs';
@@ -121,6 +122,13 @@ async function main() {
     const command = client.commands.get(interaction.commandName);
 
     if (!command) return;
+
+    if (botStatus.isMaintenance() && interaction.commandName !== 'manutencao') {
+      return await interaction.reply({
+        content: '⚠️ O bot está em manutenção no momento. Tente novamente mais tarde.',
+        flags: 'Ephemeral'
+      });
+    }
 
     try {
       console.log(`⚡ Comando recebido: ${interaction.commandName} por ${interaction.user.tag}`);

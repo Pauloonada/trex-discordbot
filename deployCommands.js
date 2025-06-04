@@ -33,6 +33,19 @@ for(const folder of commandFolders){
     }
 }
 
+if (process.env.GUILD_ID) {
+  try {
+    console.log("🧹 Limpando comandos antigos da GUILD...");
+    await rest.put(
+      Routes.applicationGuildCommands(process.env.APP_ID, process.env.GUILD_ID),
+      { body: [] } // Limpa todos os comandos de guilda
+    );
+    console.log("✅ Comandos de guilda limpos.");
+  } catch (error) {
+    console.error("❌ Erro ao limpar comandos da GUILD:", error);
+  }
+}
+
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
 
 try{
