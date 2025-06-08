@@ -109,7 +109,7 @@ export async function gerarImagemNivel(user, level, xp, voiceTime, cargos) {
         return new AttachmentBuilder(canvas.toBuffer(), { name: 'nivel.png' });
 
     } catch (erro) {
-        console.error("Error na geração da imagem:", erro);
+        console.error("Erro na geração da imagem:", erro);
         return null;
     }
 }
