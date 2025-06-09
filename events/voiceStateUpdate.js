@@ -54,19 +54,20 @@ export default{
             if(channel) channel.send(`🎉 ${member} subiu para o nível ${newLevel} por voz!`);
           }
         }
-        console.log(`🎙️ ${userId} ficou ${seconds}s em call`);
-        enviarEmbedWebhook({
-          title: '🎙️ Tempo de Voz Registrado',
-          description: `${member} ficou **${seconds} segundos** em call.`,
-          color: '#00ff00',
-          fields: [
+        const embed = new EmbedBuilder()
+          .setTitle('🎙️ Tempo de Voz Registrado')
+          .setDescription(`${member} ficou **${seconds} segundos** em call.`)
+          .setColor('#00ff00')
+          .setFields(
             { name: 'Usuário', value: `${member.user.tag} (\`${userId}\`)`, inline: true },
             { name: 'Servidor', value: `${member.guild.name} (\`${guildId}\`)`, inline: true },
             { name: 'XP ganho', value: `${xpGained}`, inline: true },
             { name: 'Total de voz essa sessão:', value: `${seconds} segundos`, inline: true }
-          ],
-          timestamp: new Date()
-          }).catch(console.error);
+          )
+          .setTimestamp();
+
+        console.log(`🎙️ ${userId} ficou ${seconds}s em call`);
+        await enviarEmbedWebhook(embed).catch(console.error);
       } 
       
       catch(error){
