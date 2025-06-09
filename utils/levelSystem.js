@@ -12,7 +12,7 @@ export default {
     const guildId = message.guild.id;
 
     const now = Date.now();
-    const cooldownTime = 10000; // 1 minuto
+    const cooldownTime = 10000; // 10 seconds
     const key = `${userId}-${guildId}`;
 
     if (cooldown.has(key)) {

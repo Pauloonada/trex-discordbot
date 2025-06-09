@@ -1,5 +1,6 @@
 import db from '../db.js';
 import voiceTimes from '../utils/voiceTracker.js';
+import { enviarEmbedWebhook } from '../utils/webhookLogger.js';
 
 export default{
   name: 'voiceStateUpdate',
@@ -19,6 +20,7 @@ export default{
       if (!joinedAt) return;
 
       const seconds = Math.floor((Date.now() - joinedAt) / 1000);
+      const xpGained = Math.floor(seconds / 90); // 1XP / Minute and a half
       voiceTimes.delete(userId);
 
       try{
@@ -36,13 +38,35 @@ export default{
         
         else{
           const total = res.rows[0].voice_seconds + seconds;
-          await db.query(
-            'UPDATE users SET voice_seconds = $1 WHERE user_id = $2 AND guild_id = $3',
-            [total, userId, guildId]
-          );
-        }
 
+          const currentXp = res.rows[0].xp;
+          const oldLevel = res.rows[0].level;
+          const newXP = currentXp + (xpGained * oldLevel); // Ganho por voz
+          const newLevel = Math.floor(0.1 * Math.sqrt(newXP));
+
+          await db.query(
+            'UPDATE users SET voice_seconds = $1, xp = $2, level = $3 WHERE user_id = $4 AND guild_id = $5',
+            [total, newXP, newLevel, userId, guildId]
+          );
+
+          if(newLevel > oldLevel){
+            const channel = member.guild.channels.cache.find(ch => ch.name === 'geral');
+            if(channel) channel.send(`🎉 ${member} subiu para o nível ${newLevel} por voz!`);
+          }
+        }
         console.log(`🎙️ ${userId} ficou ${seconds}s em call`);
+        enviarEmbedWebhook({
+          title: '🎙️ Tempo de Voz Registrado',
+          description: `${member} ficou **${seconds} segundos** em call.`,
+          color: '#00ff00',
+          fields: [
+            { name: 'Usuário', value: `${member.user.tag} (\`${userId}\`)`, inline: true },
+            { name: 'Servidor', value: `${member.guild.name} (\`${guildId}\`)`, inline: true },
+            { name: 'XP ganho', value: `${xpGained}`, inline: true },
+            { name: 'Total de voz', value: `${total} segundos`, inline: true }
+          ],
+          timestamp: new Date()
+          }).catch(console.error);
       } 
       
       catch(error){
