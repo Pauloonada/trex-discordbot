@@ -63,7 +63,7 @@ export default{
             { name: 'Usuário', value: `${member.user.tag} (\`${userId}\`)`, inline: true },
             { name: 'Servidor', value: `${member.guild.name} (\`${guildId}\`)`, inline: true },
             { name: 'XP ganho', value: `${xpGained}`, inline: true },
-            { name: 'Total de voz', value: `${total} segundos`, inline: true }
+            { name: 'Total de voz essa sessão:', value: `${seconds} segundos`, inline: true }
           ],
           timestamp: new Date()
           }).catch(console.error);
