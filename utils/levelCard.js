@@ -22,6 +22,24 @@ export async function gerarImagemNivel(user, level, xp, voiceTime, cargos) {
             avatar = await loadImage('https://i.imgur.com/AfFp7pu.png');
         }
 
+        const ignoredRoles = ['adm', 'Administrador'];
+
+        const coloredRoles = user.roles.cache.filter(role => role.color !== 0 && !ignoredRoles.includes(role.name));
+
+        let borderColor = '#1e1e2f';
+        if (coloredRoles.size > 0) {
+            const topRole = coloredRoles.reduce((a, b) => (a.position > b.position ? a : b));
+            borderColor = topRole.hexColor;
+        }
+
+        // Fancy border
+        ctx.beginPath();
+        ctx.arc(125, 125, 105, 0, Math.PI * 2);
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // Avatar
         ctx.save();
         ctx.beginPath();
         ctx.arc(125, 125, 100, 0, Math.PI * 2, true);

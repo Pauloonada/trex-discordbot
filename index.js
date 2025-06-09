@@ -1,9 +1,9 @@
 console.log("Iniciando index.js...");
 
 import { config } from 'dotenv';
-import { enviarLogWebhook } from './utils/webhookLogger.js';
+import { enviarLogWebhook, enviarEmbedWebhook } from './utils/webhookLogger.js';
 import botStatus from './utils/botStatus.js';
-import { Client, GatewayIntentBits, Collection } from 'discord.js';
+import { Client, GatewayIntentBits, Collection, EmbedBuilder } from 'discord.js';
 import path from 'path';
 import * as fs from 'fs';
 import express from 'express';
@@ -115,6 +115,8 @@ async function main() {
     if (!interaction.isCommand()) return;
 
     const command = client.commands.get(interaction.commandName);
+    const user = interaction.user;
+    const guild = interaction.guild;
 
     if (!command) return;
 
@@ -125,9 +127,23 @@ async function main() {
       });
     }
 
+    const embed = new EmbedBuilder()
+      .setTitle('📥 Comando Utilizado')
+      .setDescription('Registro de uso de comando')
+      .setColor('#3498db')
+      .addFields(
+        { name: 'Usuário', value: `${user.tag} (\`${user.id}\`)`, inline: true },
+        { name: 'Comando', value: `/${interaction.commandName}`, inline: true },
+        { name: 'Servidor', value: `${guild?.name ?? 'DM'} (\`${guild?.id ?? 'N/A'}\`)`, inline: false },
+      )
+      .setTimestamp();
+
     try {
       console.log(`⚡ Comando recebido: ${interaction.commandName} por ${interaction.user.tag}`);
       await command.execute(interaction);
+
+      // Send log to webhook
+      enviarEmbedWebhook(embed).catch(console.error);
     } catch (error) {
       console.error(`❌ Erro no comando ${interaction.commandName}:`, error);
       try {
