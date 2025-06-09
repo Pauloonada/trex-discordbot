@@ -1,6 +1,7 @@
 import db from '../db.js';
 import voiceTimes from '../utils/voiceTracker.js';
 import { enviarEmbedWebhook } from '../utils/webhookLogger.js';
+import { EmbedBuilder } from 'discord.js';
 
 export default{
   name: 'voiceStateUpdate',
