@@ -29,7 +29,7 @@ export default{
       // Exemplo de exibição:
       const formatedTime = `${hours}h ${minutes}min ${seconds}s`;
 
-      const xpGained = Math.floor(totalSeconds / 90); // 1XP / Minute and a half
+      const xpGained = Math.floor(totalSeconds / 300); // 1XP / 5 Minutes
       voiceTimes.delete(userId);
 
       try{
@@ -50,7 +50,7 @@ export default{
 
           const currentXp = res.rows[0].xp;
           const oldLevel = res.rows[0].level;
-          const newXP = currentXp + (xpGained * oldLevel); // Ganho por voz
+          const newXP = currentXp + (xpGained * Math.floor(oldLevel / 2)); // Ganho por voz
           const newLevel = Math.floor(0.1 * Math.sqrt(newXP));
 
           await db.query(
@@ -65,7 +65,7 @@ export default{
         }
         const embed = new EmbedBuilder()
           .setTitle('🎙️ Tempo de Voz Registrado')
-          .setDescription(`${member} ficou **${seconds} segundos** em call.`)
+          .setDescription(`${member} ficou **${hours} horas, ${minutes} minutos e ${seconds} segundos** em call.`)
           .setColor('#00ff00')
           .setFields(
             { name: 'Usuário', value: `${member.user.tag} (\`${userId}\`)`, inline: true },
@@ -75,7 +75,7 @@ export default{
           )
           .setTimestamp();
 
-        console.log(`🎙️ ${userId} ficou ${seconds}s em call`);
+        console.log(`🎙️ ${userId} ficou ${formatedTime} em call`);
         await enviarEmbedWebhook(embed).catch(console.error);
       } 
       
