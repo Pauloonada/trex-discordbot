@@ -3,7 +3,7 @@ console.log("Iniciando index.js...");
 import { config } from 'dotenv';
 import { enviarLogWebhook, enviarEmbedWebhook } from './utils/webhookLogger.js';
 import botStatus from './utils/botStatus.js';
-import { Client, GatewayIntentBits, Collection, EmbedBuilder } from 'discord.js';
+import { Client, GatewayIntentBits, Collection, EmbedBuilder, ActivityType } from 'discord.js';
 import path from 'path';
 import * as fs from 'fs';
 import express from 'express';
