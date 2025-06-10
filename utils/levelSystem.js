@@ -37,7 +37,7 @@ export default {
       } else {
         const currentXp = res.rows[0].xp;
         const oldLevel = res.rows[0].level;
-        const newXP = currentXp + 1 * Math.floor(oldLevel / 2); // Ganho por mensagem
+        const newXP = currentXp + (Math.floor(oldLevel / 2) === 0 ? 1 : Math.floor(oldLevel / 2)); // If the user is level 0 or 1, they'd gain 0 XP, so we ensure they gain at least 1 XP.
         const newLevel = Math.floor(0.1 * Math.sqrt(newXP));
 
         await db.query(
