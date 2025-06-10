@@ -20,8 +20,16 @@ export default{
       const joinedAt = voiceTimes.get(userId);
       if (!joinedAt) return;
 
-      const seconds = Math.floor((Date.now() - joinedAt) / 1000);
-      const xpGained = Math.floor(seconds / 90); // 1XP / Minute and a half
+      const totalSeconds = Math.floor((Date.now() - joinedAt) / 1000);
+
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      // Exemplo de exibição:
+      const formatedTime = `${hours}h ${minutes}min ${seconds}s`;
+
+      const xpGained = Math.floor(totalSeconds / 90); // 1XP / Minute and a half
       voiceTimes.delete(userId);
 
       try{
@@ -38,7 +46,7 @@ export default{
         }
         
         else{
-          const total = res.rows[0].voice_seconds + seconds;
+          const total = res.rows[0].voice_seconds + totalSeconds;
 
           const currentXp = res.rows[0].xp;
           const oldLevel = res.rows[0].level;
@@ -63,7 +71,7 @@ export default{
             { name: 'Usuário', value: `${member.user.tag} (\`${userId}\`)`, inline: true },
             { name: 'Servidor', value: `${member.guild.name} (\`${guildId}\`)`, inline: true },
             { name: 'XP ganho', value: `${xpGained}`, inline: true },
-            { name: 'Total de voz essa sessão:', value: `${seconds} segundos`, inline: true }
+            { name: 'Total de voz essa sessão:', value: `${formatedTime}`, inline: true }
           )
           .setTimestamp();
 

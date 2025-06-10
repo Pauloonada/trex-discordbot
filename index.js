@@ -108,6 +108,11 @@ async function main() {
   client.once('ready', async() => {
     console.log(`🤖 Bot online como ${client.user.tag}`);
     await enviarLogWebhook(`🟢 Bot **ligado** como \`${client.user.tag}\``);
+
+    client.user.setActivity({
+      activities: [{ name: 'Oruam 💔', type: DiscordAPIError.ActivityType.Listening }],
+      status: 'online',
+    })
   });
 
   // Once SlashCommand is used
