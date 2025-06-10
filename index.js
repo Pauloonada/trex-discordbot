@@ -110,9 +110,9 @@ async function main() {
     await enviarLogWebhook(`🟢 Bot **ligado** como \`${client.user.tag}\``);
 
     client.user.setActivity({
-      activities: [{ name: 'Oruam 💔', type: ActivityType.Listening }],
-      status: 'online',
-    })
+      name: 'Oruam 💔',
+      type: ActivityType.Listening
+    });
   });
 
   // Once SlashCommand is used

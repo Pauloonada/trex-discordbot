@@ -37,7 +37,7 @@ export default {
       } else {
         const currentXp = res.rows[0].xp;
         const oldLevel = res.rows[0].level;
-        const newXP = currentXp + 1 + oldLevel; // Ganho por mensagem
+        const newXP = currentXp + 1 * Math.floor(oldLevel / 2); // Ganho por mensagem
         const newLevel = Math.floor(0.1 * Math.sqrt(newXP));
 
         await db.query(
