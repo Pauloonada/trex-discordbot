@@ -110,7 +110,7 @@ async function main() {
     await enviarLogWebhook(`🟢 Bot **ligado** como \`${client.user.tag}\``);
 
     client.user.setActivity({
-      activities: [{ name: 'Oruam 💔', type: DiscordAPIError.ActivityType.Listening }],
+      activities: [{ name: 'Oruam 💔', type: ActivityType.Listening }],
       status: 'online',
     })
   });
