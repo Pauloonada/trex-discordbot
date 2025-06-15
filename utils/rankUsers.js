@@ -10,7 +10,7 @@ registerFont(path.resolve('./assets/fonts/Chelsea_Market/ChelseaMarket-Regular.t
 export default async function getRankingImage(guild){
     try{
         const res = await db.query(`
-            SELECT * FROM users WHERE guild_id = $1
+            SELECT * FROM user_guild_data WHERE guild_id = $1
             ORDER BY level DESC, xp DESC LIMIT 5`,
 
             [guild.id]

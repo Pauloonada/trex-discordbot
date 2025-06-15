@@ -3,6 +3,7 @@ console.log("Iniciando index.js...");
 import { config } from 'dotenv';
 import { enviarLogWebhook, enviarEmbedWebhook } from './utils/webhookLogger.js';
 import botStatus from './utils/botStatus.js';
+import db from './db.js';
 import { Client, GatewayIntentBits, Collection, EmbedBuilder, ActivityType } from 'discord.js';
 import path from 'path';
 import * as fs from 'fs';
@@ -106,14 +107,40 @@ async function main() {
 
   // Ready
   client.once('ready', async() => {
-    console.log(`🤖 Bot online como ${client.user.tag}`);
-    await enviarLogWebhook(`🟢 Bot **ligado** como \`${client.user.tag}\``);
+    console.log(`🤖 Bot online como ${client.user.username}`);
+    await enviarLogWebhook(`🟢 Bot **ligado** como \`${client.user.username}\``);
+
+    for (const [guildId, guild] of client.guilds.cache) {
+    await db.query(
+      'INSERT INTO guilds (id, name) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING',
+      [guildId, guild.name]
+    );
+  }
+
+  console.log('✅ Todas as guilds foram sincronizadas com o banco.');
 
     client.user.setActivity({
       name: 'Oruam 💔',
       type: ActivityType.Listening
     });
   });
+
+  client.on('guildCreate', async guild => {
+    if (!guild.available) return;
+
+    try {
+      await db.query(
+        'INSERT INTO guilds (id, name) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING',
+        [guild.id, guild.name]
+      );
+
+      console.log(`🎉 Bot adicionado ao servidor: ${guild.name} (${guild.id})`);
+      await enviarLogWebhook(`🟢 Bot adicionado ao servidor: **${guild.name}** (\`${guild.id}\`)`);
+    } catch (err) {
+      console.error('Erro ao adicionar guilda ao banco:', err);
+    }
+  });
+
 
   // Once SlashCommand is used
   client.on('interactionCreate', async interaction => {

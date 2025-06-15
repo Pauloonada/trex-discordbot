@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, AttachmentBuilder } from 'discord.js';
+import { SlashCommandBuilder, AttachmentBuilder, EmbedBuilder } from 'discord.js';
 import { gerarImagemNivel } from '../../utils/levelCard.js';
 import db from '../../db.js';
 import { InteractionResponseFlags } from 'discord-interactions';
@@ -34,7 +34,7 @@ export default {
     try {
       console.log('⛏️ Buscando no banco...');
       const res = await db.query(
-        'SELECT * FROM users WHERE user_id = $1 AND guild_id = $2',
+        'SELECT * FROM user_guild_data WHERE user_id = $1 AND guild_id = $2',
         [userId, guildId]
       );
       console.log('✅ Dados retornados!');

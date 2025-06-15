@@ -27,7 +27,5 @@ export default{
             console.error('Erro no comando /rank: ', error);
             await interaction.editReply('❌ Erro ao exibir o ranking.');
         }
-
-
     },
 };

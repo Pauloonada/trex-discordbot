@@ -34,14 +34,20 @@ export default{
 
       try{
         const res = await db.query(
-          'SELECT * FROM users WHERE user_id = $1 AND guild_id = $2',
+          'SELECT * FROM user_guild_data WHERE user_id = $1 AND guild_id = $2',
           [userId, guildId]
         );
 
         if(res.rows.length === 0){
           await db.query(
-            'INSERT INTO users (user_id, guild_id, voice_seconds) VALUES ($1, $2, $3)',
-            [userId, guildId, seconds]
+            'INSERT INTO users (id) VALUES ($1) on conflict do nothing',
+            [userId]
+          );
+
+          await db.query(
+            ` INSERT INTO user_guild_data (user_id, guild_id, voice_seconds) VALUES ($1, $2, $3)
+              ON CONFLICT (user_id, guild_id) DO UPDATE SET voice_seconds = EXCLUDED.voice_seconds`,
+              [userId, guildId, totalSeconds]
           );
         }
         
@@ -54,7 +60,7 @@ export default{
           const newLevel = Math.floor(0.1 * Math.sqrt(newXP));
 
           await db.query(
-            'UPDATE users SET voice_seconds = $1, xp = $2, level = $3 WHERE user_id = $4 AND guild_id = $5',
+            'UPDATE user_guild_data SET voice_seconds = $1, xp = $2, level = $3 WHERE user_id = $4 AND guild_id = $5',
             [total, newXP, newLevel, userId, guildId]
           );
 

@@ -24,13 +24,20 @@ export default {
 
     try {
       const res = await db.query(
-        'SELECT * FROM users WHERE user_id = $1 AND guild_id = $2',
+        'SELECT * FROM user_guild_data WHERE user_id = $1 AND guild_id = $2',
         [userId, guildId]
       );
 
       if (res.rows.length === 0) {
         await db.query(
-          'INSERT INTO users (user_id, guild_id, xp, level) VALUES ($1, $2, $3, $4)',
+          `INSERT INTO users (id, username) VALUES ($1, $2)
+           ON CONFLICT (id) DO
+           UPDATE SET username = EXCLUDED.username`,
+          [userId, message.author.username]
+        );
+
+        await db.query(
+          'INSERT INTO user_guild_data (user_id, guild_id, xp, level) VALUES ($1, $2, $3, $4)',
           [userId, guildId, 1, 0]
         );
         console.log(`🆕 Adicionado novo usuário: ${userId}`);
@@ -41,7 +48,7 @@ export default {
         const newLevel = Math.floor(0.1 * Math.sqrt(newXP));
 
         await db.query(
-          'UPDATE users SET xp = $1, level = $2 WHERE user_id = $3 AND guild_id = $4',
+          'UPDATE user_guild_data SET xp = $1, level = $2 WHERE user_id = $3 AND guild_id = $4',
           [newXP, newLevel, userId, guildId]
         );
 
