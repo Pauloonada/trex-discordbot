@@ -1,4 +1,5 @@
 import db from "../db.js";
+import cleanUserName from "./cleanUserName.js";
 import { createCanvas, loadImage, registerFont, Image } from "canvas";
 import path from 'path';
 import { AttachmentBuilder } from "discord.js";
@@ -47,7 +48,7 @@ export default async function getRankingImage(guild){
             const user = users[i];
             const userDiscord = await guild.members.fetch(user.user_id).catch(() => null);
 
-            const username = userDiscord?.user?.displayName ?? 'Randola?';
+            const username = userDiscord?.user?.displayName ?? 'Randola';
             const avatarURL = userDiscord?.user?.displayAvatarURL({ extension: 'png', size: 128 }) ?? 'https://i.imgur.com/AfFp7pu.png';
             const avatar = await loadImage(avatarURL);
             const topY = 100 + i * 100;
@@ -123,7 +124,7 @@ export default async function getRankingImage(guild){
             // Name
             ctx.font = '28px Chelsea-Market';
             ctx.fillStyle = '#ffffff';
-            ctx.fillText(username, 190, topY + 35);
+            ctx.fillText(cleanUserName(username), 190, topY + 35);
 
             // Level
             ctx.font = '22px Chelsea-Market';
