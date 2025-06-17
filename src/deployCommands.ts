@@ -40,12 +40,13 @@ try{
     console.log("⏳ Registrando comandos (slash)...")
     console.log("Comandos a serem registrados:");
     commands.forEach(cmd => console.log(" -", cmd.name));
-    await rest.put(Routes.applicationCommands(process.env.APP_ID!), { body: commands });
-    // await rest.put(Routes.applicationGuildCommands(process.env.APP_ID!, process.env.GUILD_ID!), { body: commands });
+    // await rest.put(Routes.applicationCommands(process.env.APP_ID!), { body: commands });
+    await rest.put(Routes.applicationGuildCommands(process.env.APP_ID!, process.env.GUILD_ID!), { body: commands });
     console.log("✅ Comandos registrados com sucesso.");
 } catch(error){
     console.error("❌ Erro ao registrar comandos:", error);
 }
+/*
 if (process.env.GUILD_ID) {
   try {
     console.log("🧹 Limpando comandos antigos da GUILD...");
@@ -58,5 +59,6 @@ if (process.env.GUILD_ID) {
     console.error("❌ Erro ao limpar comandos da GUILD:", error);
   }
 }
+*/
 console.log("✅ deployCommands.js finalizado com sucesso!");
 process.exit(0);
