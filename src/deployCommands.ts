@@ -37,12 +37,24 @@ for(const folder of commandFolders){
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN!);
 
 try{
+  if (process.env.APP_ID) {
+    try {
+      console.log("🧹 Limpando comandos antigos do BOT...");
+      await rest.put(
+        Routes.applicationCommands(process.env.APP_ID),
+        { body: [] } // Limpa todos os comandos de guilda
+      );
+      console.log("✅ Comandos limpos.");
+    } catch (error) {
+      console.error("❌ Erro ao limpar comandos:", error);
+    }
+  }
     console.log("⏳ Registrando comandos (slash)...")
     console.log("Comandos a serem registrados:");
     commands.forEach(cmd => console.log(" -", cmd.name));
 
     await rest.put(Routes.applicationCommands(process.env.APP_ID!), { body: commands });
-    await rest.put(Routes.applicationGuildCommands(process.env.APP_ID!, process.env.GUILD_ID!), { body: commands });
+    // await rest.put(Routes.applicationGuildCommands(process.env.APP_ID!, process.env.GUILD_ID!), { body: commands });
 
     console.log("✅ Comandos registrados com sucesso.");
 } catch(error){
