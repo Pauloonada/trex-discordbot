@@ -40,8 +40,15 @@ try{
     console.log("⏳ Registrando comandos (slash)...")
     console.log("Comandos a serem registrados:");
     commands.forEach(cmd => console.log(" -", cmd.name));
-    // await rest.put(Routes.applicationCommands(process.env.APP_ID!), { body: commands });
+    await rest.put(Routes.applicationCommands(process.env.APP_ID!), { body: commands });
     await rest.put(Routes.applicationGuildCommands(process.env.APP_ID!, process.env.GUILD_ID!), { body: commands });
+
+    const globalCommands = await rest.get(Routes.applicationCommands(process.env.APP_ID!));
+    console.log("Globais: ", globalCommands);
+
+    const localCommands = await rest.get(Routes.applicationGuildCommands(process.env.APP_ID!, process.env.GUILD_ID!));
+    console.log("Na guilda: ", localCommands);
+
     console.log("✅ Comandos registrados com sucesso.");
 } catch(error){
     console.error("❌ Erro ao registrar comandos:", error);
