@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "node dist/index.js",
-    "build": "tsc",
+    "build": "tsc && cp -r src/views dist/views",
     "dev": "node --loader ts-node/esm src/index.ts",
     "register": "node dist/deployCommands.js",
     "register:dev": "node --loader ts-node/esm src/deployCommands.ts",
