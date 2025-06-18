@@ -62,7 +62,7 @@ export default {
       }
 
       await interaction.editReply({
-        content: `📊 Nível de ${member!.user.username}`,
+        content: `📊 Perfil de ${member!.user.username}`,
         files: [imagem!],
       });
 

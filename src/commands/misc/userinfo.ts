@@ -11,7 +11,7 @@ export default{
         ),
 
     async execute(interaction: ChatInputCommandInteraction){
-        const user = interaction.options.getUser('user') || interaction.user;
+        const user = interaction.options.getUser('usuario') || interaction.user;
         const member = await interaction.guild?.members.fetch(user.id);
 
         const embed = new EmbedBuilder()

@@ -34,7 +34,7 @@ export default{
         const response = responses[Math.floor(Math.random() * responses.length)]
 
         await interaction.reply({
-            content: `🎱 **Pergunta:** ${question}\n💬 **Resposta:** ${response}`,
+            content: `🎱 **Pergunta:** ${question}\n\n💬 **Resposta:** ${response}`,
         });
     }
 };

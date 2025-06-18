@@ -32,7 +32,7 @@ export default{
             .setDescription(suggestion)
             .setColor('#00b0f4')
             .setFooter({
-                text: `Sugestão de ${user.tag}`,
+                text: `Sugestão de ${user.tag} em ${interaction.guild?.name}`,
                 iconURL: user.displayAvatarURL()
             })
             .setTimestamp();
