@@ -57,6 +57,10 @@ try{
     // await rest.put(Routes.applicationGuildCommands(process.env.APP_ID!, process.env.GUILD_ID!), { body: commands });
 
     console.log("✅ Comandos registrados com sucesso.");
+
+    const globalCommands = await rest.get(Routes.applicationCommands(process.env.APP_ID!));
+    console.log("🌐 Comandos globais atualmente registrados:", globalCommands);
+    
 } catch(error){
     console.error("❌ Erro ao registrar comandos:", error);
 }
