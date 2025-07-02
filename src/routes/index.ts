@@ -4,6 +4,8 @@ import { ExtendedClient } from '../types';
 export default function createRouter(client: ExtendedClient) {
   const router = express.Router();
 
+  router.use(express.static('public'));
+
   router.get('/', (req, res) => {
     const uptime = formatUptime(client.uptime || 0);
     const status = client.user?.presence?.status || 'indefinido';

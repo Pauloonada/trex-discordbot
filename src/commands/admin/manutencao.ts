@@ -47,8 +47,6 @@ export default {
       });
 
       await enviarLogWebhook('🟡 Bot **desligado via comando** `/manutenção`.');
-
-      setTimeout(() => process.exit(0), 1000);
     }
 
     else{

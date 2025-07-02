@@ -25,11 +25,6 @@ app.set('views', path.join(__dirname, 'views'));
 console.log("📦 Variáveis de ambiente visíveis:", process.env);
 
 async function main() {
-  if(fs.existsSync('./.maintenance')){
-    console.warn("⚠️ O bot está em manutenção! Arquivo '.maintenance' encontrado. Abortando startup.");
-    process.exit(0);
-  }
-
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 

@@ -42,15 +42,28 @@ export default async function getRankingImage(guild: Guild): Promise<AttachmentB
 
         const places = [medalIcons[0], medalIcons[1], medalIcons[2], '4º', '5º'];
 
+        let drawIndex = 0;
+
         // Rendering top 5
         for(let i = 0; i< users.length; i++){
             const user = users[i];
             const userDiscord = await guild.members.fetch(user.user_id).catch(() => null);
 
+            if(!userDiscord){
+                console.warn(`🗑️ Usuário ${user.user_id} não está mais no servidor. Removendo do banco.`);
+
+                await db.query(
+                    'DELETE FROM user_guild_data WHERE user_id = $1 AND guild_id = $2',
+                    [user.user_id, guild.id]
+                );
+
+                continue;
+            }
+
             const username = userDiscord?.user?.displayName ?? 'Randola';
             const avatarURL = userDiscord?.user?.displayAvatarURL({ extension: 'png', size: 128 }) ?? 'https://i.imgur.com/AfFp7pu.png';
             const avatar = await loadImage(avatarURL);
-            const topY = 100 + i * 100;
+            const topY = 100 + drawIndex * 100;
 
             // Container-like border
             ctx.fillStyle = '#2a2a40';
@@ -96,7 +109,7 @@ export default async function getRankingImage(guild: Guild): Promise<AttachmentB
             ctx.drawImage(avatar, 50, topY - 5, 80, 80);
             ctx.restore();
 
-            const item = places[i];
+            const item = places[drawIndex];
 
             // Medal or position
             if(typeof item === 'string'){
@@ -130,6 +143,8 @@ export default async function getRankingImage(guild: Guild): Promise<AttachmentB
             ctx.font = '22px Chelsea-Market';
             ctx.fillStyle = '#cccccc';
             ctx.fillText(`Nível ${user.level} • XP ${user.xp}`, 190, topY + 65);
+
+            drawIndex++;
         }
 
         return new AttachmentBuilder(canvas.toBuffer(), { name: 'ranking.png' });
