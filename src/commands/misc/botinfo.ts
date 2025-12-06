@@ -7,10 +7,11 @@ export default{
         const client = interaction.client;
 
         const upTimeMs = client.uptime ?? 0;
-        const upTimeSeconds = Math.floor(upTimeMs / 1000);
-        const upTimeMinutes = Math.floor(upTimeSeconds / 60);
-        const upTimeHours = Math.floor(upTimeMinutes / 60);
-        const upTimeDays = Math.floor(upTimeHours / 24);
+        const totalUptimeSeconds = Math.floor(upTimeMs / 1000);
+        const upTimeSeconds = totalUptimeSeconds % 60;
+        const upTimeMinutes = Math.floor((totalUptimeSeconds / 60) % 60);
+        const upTimeHours = Math.floor((totalUptimeSeconds / 3600) % 24);
+        const upTimeDays = Math.floor(totalUptimeSeconds / 86400);
 
         const embed = new EmbedBuilder()
             .setTitle('🤖 Informações do Bot')

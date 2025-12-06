@@ -6,7 +6,6 @@ export default{
         const sentTimestamp = Date.now();
         await interaction.reply({
             content: "🏓 Pingando...",
-            withResponse: true,
         });
 
         const ping = sentTimestamp - interaction.createdTimestamp;

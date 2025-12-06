@@ -74,8 +74,8 @@ export async function gerarImagemNivel(user: GuildMember, level: number, xp: num
         ctx.fillText(`Call: ${voiceTime}`, 280, 195);
 
         // Barra de progresso XP — sem recalcular level, usa o level que recebeu
-        const xpAtualMin = 100 * level * level;
-        const xpProxNivel = 100 * (level + 1) * (level + 1);
+        const xpAtualMin = 100 * (level ** 2);
+        const xpProxNivel = 100 * ((level + 1) ** 2);
         const xpDentroDoNivel = xp - xpAtualMin;
         const xpNecessario = xpProxNivel - xpAtualMin;
         const progresso = xpDentroDoNivel / xpNecessario;

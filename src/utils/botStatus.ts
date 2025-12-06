@@ -1,6 +1,6 @@
 let inMaintenance = false;
 
 export default{
-    isMaintenance: () => inMaintenance,
+    isInMaintenance: () => inMaintenance,
     setMaintenance: (value: boolean) => { inMaintenance = value; }
 };

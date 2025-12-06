@@ -16,7 +16,7 @@ export default {
     const guildId = message.guild.id;
 
     const now = Date.now();
-    const cooldownTime = 10000; // 10 seconds
+    const cooldownTime = 5000; // 10 seconds
     const key = `${userId}-${guildId}`;
 
     if (cooldown.has(key)) {
@@ -48,7 +48,8 @@ export default {
       } else {
         const currentXp = res.rows[0].xp;
         const oldLevel = res.rows[0].level;
-        const newXP = currentXp + (Math.floor(oldLevel / 2) === 0 ? 1 : Math.floor(oldLevel / 2)); // If the user is level 0 or 1, they'd gain 0 XP, so we ensure they gain at least 1 XP.
+        const xpGained = Math.floor(Math.sqrt(oldLevel / 2) + 1);
+        const newXP = currentXp + xpGained;
         const newLevel = Math.floor(0.1 * Math.sqrt(newXP));
 
         await db.query(
