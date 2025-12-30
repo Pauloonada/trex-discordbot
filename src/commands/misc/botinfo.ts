@@ -39,11 +39,6 @@ export default{
                     inline: true
                 },
                 {
-                    name: '👥 Usuários',
-                    value: client.users.cache.size.toString(),
-                    inline: true
-                },
-                {
                     name: '📚 Comandos',
                     value: client.application.commands.cache.size.toString(),
                     inline: true
