@@ -1,9 +1,10 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, PermissionsBitField, MessageFlags } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, PermissionsBitField, MessageFlags, PermissionFlagsBits } from "discord.js";
 
 export default{
     data: new SlashCommandBuilder()
         .setName('clear')
         .setDescription('Apaga várias mensagens de uma vez')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
         .addIntegerOption(opt =>
             opt.setName('quantidade')
                 .setDescription('Número de mensagens para apagar (1-100')

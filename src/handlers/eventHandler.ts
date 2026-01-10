@@ -21,12 +21,12 @@ export default async function eventHandler(client: any){
                     if (event.default.once) {
                         client.once(event.default.name, (...args: any[]) => {
                         console.log(`▶️ Evento '${event.default.name}' executado (once).`);
-                        event.default.execute(...args, client);
+                        event.default.execute(...args);
                         });
                     } else {
                         client.on(event.default.name, (...args: any[]) => {
                         console.log(`▶️ Evento '${event.default.name}' executado.`);
-                        event.default.execute(...args, client);
+                        event.default.execute(...args);
                         });
                     }
                     console.log(`✅ Evento "${event.default.name}" registrado!`);

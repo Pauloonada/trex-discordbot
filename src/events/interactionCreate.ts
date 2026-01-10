@@ -1,13 +1,14 @@
 import botStatus from "../utils/botStatus.js";
 import { EmbedBuilder, Interaction } from "discord.js";
 import { enviarEmbedWebhook } from "../utils/webhookLogger.js";
-
-import type { ExtendedClient } from "../types";
+import { ExtendedClient } from "../types/index.js";
 
 export default{
     name: "interactionCreate",
 
-    async execute(interaction: Interaction, client: ExtendedClient){
+    async execute(interaction: Interaction){
+        const client = interaction.client as ExtendedClient;
+
         console.log('🔍 Interação recebida de', interaction.user.tag);
         if (!interaction.isCommand()) return;
         

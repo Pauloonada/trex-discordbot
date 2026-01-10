@@ -1,5 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, PresenceUpdateStatus, ActivityType, MessageFlags } from "discord.js";
 
+const owner = process.env.OWNER;
+
 export default{
     data: new SlashCommandBuilder()
         .setName('status')
@@ -35,6 +37,13 @@ export default{
         ),
 
     async execute(interaction: ChatInputCommandInteraction){
+        if(interaction.user.id !== owner){
+            return await interaction.reply({
+                content: '❌ Você não tem permissão para usar este comando.',
+                flags: MessageFlags.Ephemeral
+            })
+        }
+
         const type = interaction.options.getString('tipo', true);
         const message = interaction.options.getString('mensagem', true);
         const availability = interaction.options.getString('disponibilidade', true) as PresenceUpdateStatus | null;
